@@ -9,32 +9,32 @@ const movies = document.querySelector("#selectMovie");
 const movieName = document.querySelector("#movieName");
 const moviePrice = document.querySelector("#moviePrice");
 const movieDate = document.querySelector(".date");
-// default
+let totalPrice = document.querySelector("#totalPrice");
+// default - movie 1
 const movieDefault = document.createElement("option");
-movieDefault.value = "";
-movieDefault.textContent = "--Please choose an option--";
-movieName.textContent = "N/A";
-moviePrice.textContent = "$ 0";
+movieDefault.value = "Devil May Cry";
+movieDefault.textContent = "Devil May Cry";
+movieName.textContent = "Devil May Cry";
+moviePrice.textContent = `$ ${moviesList[0].price}`;
 const today = new Date();
 movieDate.textContent = today.toLocaleDateString("en-US", {
 	day: "2-digit",
 	month: "long",
 	year: "numeric",
 });
-
 movies.append(movieDefault);
-// movies 1 to 3
-moviesList.forEach((movie) => {
+// movies 2 and 3
+moviesList.slice(1).forEach((movie) => {
 	const option = document.createElement("option");
 	option.value = movie.movieName;
 	option.textContent = movie.movieName;
-	// event listener for each movie
-	movies.addEventListener("change", (e) => {
-		if (e.target.value === movie.movieName) {
-			movieName.textContent = movie.movieName;
-			moviePrice.textContent = `$ ${movie.price}`;
-		}
-		
-	});
 	movies.appendChild(option);
+});
+// event listener for each movie
+movies.addEventListener("change", (chosenMovie) => {
+	const selectedMovie = moviesList.find((movie) => chosenMovie.target.value === movie.movieName);
+	if (selectedMovie) {
+		movieName.textContent = selectedMovie.movieName;
+		moviePrice.textContent = `$ ${selectedMovie.price}`;
+	}
 });
